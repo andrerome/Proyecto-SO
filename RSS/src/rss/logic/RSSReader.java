@@ -58,9 +58,9 @@ public class RSSReader {
             providers.add(new RSSProvider("Tema 4","http://www.foxsports.com/feedout/syndicatedContent?categoryId=235"));
         }
         
-        FeedFetcher f1 = new FeedFetcher("http://www.tullyrankin.com/feed/rss");
-        FeedFetcher f2 = new FeedFetcher("http://www.foxsports.com/feedout/syndicatedContent?categoryId=235");
-        FeedFetcher f3 = new FeedFetcher("http://sports.espn.go.com/espn/rss/oly/news");
+        FeedFetcher f1 = new FeedFetcher("http://blogdesuperheroes.es/feed");
+        FeedFetcher f2 = new FeedFetcher("http://www.microsiervos.com/index.xml");
+        FeedFetcher f3 = new FeedFetcher("http://www.eluniverso.com/rss/noticias.xml");
         
         f1.start();
         f2.start();
