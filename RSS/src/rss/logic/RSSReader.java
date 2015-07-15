@@ -2,6 +2,7 @@ package rss.logic;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -55,12 +56,29 @@ public class RSSReader {
         RSSReaderFrame frame = new RSSReaderFrame(feed);
         
         //RSS disponibles para escoger
-        providers.add(new RSSProvider("Comics ", "http://blogdesuperheroes.es/feed"));
-        providers.add(new RSSProvider("El Universo","http://www.microsiervos.com/index.xm"));
-        providers.add(new RSSProvider("Tecnologia","http://www.microsiervos.com/index.xml"));
-        providers.add(new RSSProvider("ESPOL","http://www.espol.edu.ec/trabajo.aspx"));        
+                
         
-        FeedFetcher f1 = new FeedFetcher("http://blogdesuperheroes.es/feed");
+        
+        ArrayList<String> urls= new ArrayList<String>();
+        urls.add("http://blogdesuperheroes.es/feed");
+        urls.add("http://www.eluniverso.com/rss/noticias.xml");
+        urls.add("http://www.microsiervos.com/index.xml");
+        urls.add("http://www.espol.edu.ec/trabajo.aspx");
+        
+        providers.add(new RSSProvider("Comics ", "http://blogdesuperheroes.es/feed"));
+        providers.add(new RSSProvider("El Universo","http://www.eluniverso.com/rss/noticias.xml"));
+        providers.add(new RSSProvider("Tecnologia","http://www.microsiervos.com/index.xml"));
+        providers.add(new RSSProvider("ESPOL","http://www.espol.edu.ec/trabajo.aspx"));
+        
+        for(int i=0; i<urls.size(); i++){
+        
+            FeedFetcher f = new FeedFetcher(urls.get(i));
+            fetchers.add(f);
+            f.start();
+        }
+        
+        
+        /*FeedFetcher f1 = new FeedFetcher("http://blogdesuperheroes.es/feed");
         FeedFetcher f2 = new FeedFetcher("http://www.microsiervos.com/index.xml");
         FeedFetcher f3 = new FeedFetcher("http://www.eluniverso.com/rss/noticias.xml");
         FeedFetcher f4 = new FeedFetcher("http://www.espol.edu.ec/trabajo.aspx");
@@ -73,7 +91,7 @@ public class RSSReader {
         f1.start();
         f2.start();
         f3.start();
-        f4.start();
+        f4.start();*/
         
         UserFeedUpdater updater = new UserFeedUpdater(feed, frame);
         updater.start();
