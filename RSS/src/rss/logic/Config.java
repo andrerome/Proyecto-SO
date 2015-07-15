@@ -1,7 +1,5 @@
 package rss.logic;
 
-import java.util.LinkedList;
-
 public abstract class Config {
     
     /**
@@ -13,7 +11,7 @@ public abstract class Config {
      * Tiempo a esperar entre pulls
      * Nota: 1 minute = 60000 milliseconds
      */
-    public final static long TIME_TO_WAIT = 60000l;
+    public final static long TIME_TO_WAIT = 5000;
     
     /**
      * Bandera para que los hilos sepan si se debe forzar un pull mientras esperan
@@ -24,5 +22,5 @@ public abstract class Config {
     /**
      * Buffer compartido en donde los hilos productores colocarán la información y el hilo consumidor los agregará al listado principal del usuario y limpiará el buffer
      */
-    public final static LinkedList <RSSData> RSS_BUFFER = new LinkedList <RSSData> ();
+    public final static RSSBuffer RSS_BUFFER = new RSSBuffer();
 }

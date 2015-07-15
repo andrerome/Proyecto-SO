@@ -1,6 +1,7 @@
 package rss.gui;
 
 import java.util.LinkedList;
+import javax.swing.AbstractListModel;
 import rss.logic.RSSData;
 
 public class RSSReaderFrame extends javax.swing.JFrame {
@@ -10,11 +11,23 @@ public class RSSReaderFrame extends javax.swing.JFrame {
      * Creates new form RSSReader
      */
     public RSSReaderFrame(LinkedList <RSSData> feed) {
+        this.userFeed = feed;
         initComponents();
     }
     
     public void refreshFeed() {
-        // TODO: Actualizar lista de entradas que ve el usuario
+        jList1.setModel(new AbstractListModel() {
+
+            @Override
+            public int getSize() {
+                return userFeed.size();
+            }
+
+            @Override
+            public Object getElementAt(int i) {
+                return userFeed.get(i);
+            }
+        });
     }
 
     /**
@@ -30,6 +43,7 @@ public class RSSReaderFrame extends javax.swing.JFrame {
         jList1 = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("RSSReader");
 
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jList1);
@@ -40,14 +54,14 @@ public class RSSReaderFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 833, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
