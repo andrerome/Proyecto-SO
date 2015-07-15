@@ -2,32 +2,54 @@ package rss.logic;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import java.util.LinkedList;
+import java.util.Random;
 
 public class FeedFetcher extends Thread {
     private String url = null;
     private long lastFetch = 0;
     
+    private static int ID = 0; // TODO: Remover esto. Fue colocado con fines de prueba.
+    private static Random rand = new Random(); // TODO: Remover esto. Fue colocado con fines de prueba.
+    
     public FeedFetcher(String url) {
         this.url = url;
     }
     
+    private RSSData createData() { // TODO: Remover esto. Fue colocado con fines de prueba.
+        if (rand.nextBoolean())
+            return null;
+        
+        ID++;
+        return new RSSData("title: "+ID, url, "descripcion", "idioma", "copyright", new Date());
+    }
+    
     private void pull() throws MalformedURLException, SAXException, ParserConfigurationException, IOException {
-        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        System.out.println("pull from: "+url);
+        
+        // TODO: foreach        
+        /*DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         URL tmp = new URL(this.url);
         Document doc = builder.parse(tmp.openStream());
         NodeList items = doc.getElementsByTagName("item");
         RSSData data = new RSSData(items);
         
-        Config.RSS_BUFFER.add(data);
+        Config.RSS_BUFFER.add(data);*/
+        
+        LinkedList <RSSData> dataToAdd = new LinkedList <RSSData> ();
+        
+        for (int i=0; i<5; i++) {
+            RSSData new_data = createData();
+            if (new_data != null)
+                dataToAdd.add(new_data);
+        }
+        
+        Config.RSS_BUFFER.addData(dataToAdd);
         
         lastFetch = System.currentTimeMillis();
     }
