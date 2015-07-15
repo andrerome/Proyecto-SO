@@ -9,7 +9,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -26,12 +25,9 @@ public class FeedFetcher extends Thread {
         URL tmp = new URL(this.url);
         Document doc = builder.parse(tmp.openStream());
         NodeList items = doc.getElementsByTagName("item");
+        RSSData data = new RSSData(items);
         
-        for (int i = 0; i < items.getLength(); i++) {
-            Element item = (Element)items.item(i);
-            RSSData data = new RSSData(item);
-            Config.RSS_BUFFER.add(data);
-         }                                      
+        Config.RSS_BUFFER.add(data);
         
         lastFetch = System.currentTimeMillis();
     }
