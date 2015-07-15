@@ -1,5 +1,6 @@
 package rss.gui;
 
+import java.awt.Font;
 import java.util.LinkedList;
 import javax.swing.AbstractListModel;
 import rss.logic.RSSData;
@@ -17,8 +18,8 @@ public class RSSReaderFrame extends javax.swing.JFrame {
     }
     
     public void refreshFeed() {
-        jList1.setModel(new AbstractListModel() {
-
+        jList1.setFont(new Font("monospaced", Font.ROMAN_BASELINE, 13));
+        jList1.setModel(new AbstractListModel() {       
             @Override
             public int getSize() {
                 return userFeed.size();
@@ -48,6 +49,8 @@ public class RSSReaderFrame extends javax.swing.JFrame {
         setTitle("RSSReader");
 
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jList1.setCellRenderer(new RSSDataRenderer());
+        jList1.setFixedCellHeight(100);
         jScrollPane1.setViewportView(jList1);
 
         jButton1.setText("Force pull");
@@ -64,8 +67,8 @@ public class RSSReaderFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 833, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 833, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

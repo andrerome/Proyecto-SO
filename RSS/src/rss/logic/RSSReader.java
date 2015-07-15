@@ -71,7 +71,7 @@ public class RSSReader {
         
         //f1.start();
         //f2.start();
-        //f3.start();
+        f3.start();
         f4.start();
         
         UserFeedUpdater updater = new UserFeedUpdater(feed, frame);
