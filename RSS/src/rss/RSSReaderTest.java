@@ -8,6 +8,7 @@ package rss;
  *
  * @author joalguzm
  */
+import rss.logic.RSSProvider;
 import java.net.URL;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,17 +17,17 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class RSSReader {
+public class RSSReaderTest {
 
-   private static RSSReader instance = null;
+   private static RSSReaderTest instance = null;
 
    private URL rssURL;
 
-   private RSSReader() {}
+   public RSSReaderTest() {}
 
-   public static RSSReader getInstance() {
+   public static RSSReaderTest getInstance() {
       if (instance == null)
-         instance = new RSSReader();
+         instance = new RSSReaderTest();
       return instance;
    }
 
@@ -53,7 +54,7 @@ public class RSSReader {
       }
    }
 
-   public String getValue(Element parent, String nodeName) {
+   public static String getValue(Element parent, String nodeName) {
       Node temp = parent.getElementsByTagName(nodeName).item(0).getFirstChild();
       
       return temp!=null?temp.getNodeValue():"";
@@ -63,7 +64,7 @@ public class RSSReader {
       
       try {
          RSSOptions options = new RSSOptions();
-         RSSReader reader = RSSReader.getInstance();
+         RSSReaderTest reader = RSSReaderTest.getInstance();
           for (RSSProvider rss : options.rssAvailible) {
               reader.setURL(rss.url);
               reader.writeFeed();
