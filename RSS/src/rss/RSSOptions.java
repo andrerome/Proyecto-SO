@@ -5,6 +5,7 @@
  */
 package rss;
 
+import rss.logic.RSSProvider;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 

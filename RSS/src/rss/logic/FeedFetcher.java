@@ -1,5 +1,17 @@
 package rss.logic;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 public class FeedFetcher extends Thread {
     private String url = null;
     private long lastFetch = 0;
@@ -8,8 +20,13 @@ public class FeedFetcher extends Thread {
         this.url = url;
     }
     
-    private void pull() {
-        RSSData data = new RSSData(); // TODO: Pedir datos reales del RSS
+    private void pull() throws MalformedURLException, SAXException, ParserConfigurationException, IOException {
+        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        URL tmp = new URL(this.url);
+        Document doc = builder.parse(tmp.openStream());
+        NodeList items = doc.getElementsByTagName("item");
+        RSSData data = new RSSData(items);
+        
         Config.RSS_BUFFER.add(data);
         
         lastFetch = System.currentTimeMillis();
@@ -28,9 +45,17 @@ public class FeedFetcher extends Thread {
                 }
             };
 
-            // TODO: Esperar a que liberen el buffer
-            pull();
-            // TODO: Notificar que se dejó de usar el buffer
+            try {
+                // TODO: Esperar a que liberen el buffer
+                pull();
+                // TODO: Notificar que se dejó de usar el buffer
+            } catch (SAXException ex) {
+                Logger.getLogger(FeedFetcher.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParserConfigurationException ex) {
+                Logger.getLogger(FeedFetcher.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(FeedFetcher.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }
