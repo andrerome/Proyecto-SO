@@ -66,22 +66,17 @@ public class RSSData {
     }
 
 
-    public RSSData(NodeList items) {
-        
-        for (int i = 0; i < items.getLength(); i++) {
-            Element item = (Element)items.item(i);
-            this.title = RSSReader.getValue(item, "title");
-            //this.feed = RSSReader.getValue(item, "description");
-            //this.autor = RSSReader.getValue(item, "description");            
-            this.link = RSSReader.getValue(item, "link");  
-            this.description = RSSReader.getValue(item, "description");
-            
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy  HH:mm:ss");
-            try {
-               this.pubDate = formatter.parse(RSSReader.getValue(item, "pubDate"));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }                      
-         }
+    public RSSData(Element item) {
+        this.title = RSSReader.getValue(item, "title");
+        this.copyright = "Copyright"; //TODO: cambiar por tag real
+        this.link = RSSReader.getValue(item, "link");  
+        this.description = RSSReader.getValue(item, "description");
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy  HH:mm:ss");
+        try {
+           this.pubDate = formatter.parse(RSSReader.getValue(item, "pubDate"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }                      
     }
 }
