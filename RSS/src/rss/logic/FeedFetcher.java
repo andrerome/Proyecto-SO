@@ -32,7 +32,7 @@ public class FeedFetcher extends Thread {
             return null;
         
         ID++;
-        return new RSSData("title: "+ID, url, "descripcion", "idioma", "copyright", new Date());
+        return new RSSData("title: "+ID, url, "descripcion", "idioma", "copyright", new Date().toString());
     }
     
     private void pull() throws MalformedURLException, SAXException, ParserConfigurationException, IOException {

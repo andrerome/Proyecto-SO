@@ -58,9 +58,9 @@ public class RSSReader {
             providers.add(new RSSProvider("Tema 4","http://www.foxsports.com/feedout/syndicatedContent?categoryId=235"));
         }
         
-        FeedFetcher f1 = new FeedFetcher("TEST1");
-        FeedFetcher f2 = new FeedFetcher("TEST2");
-        FeedFetcher f3 = new FeedFetcher("TEST3");
+        FeedFetcher f1 = new FeedFetcher("http://www.tullyrankin.com/feed/rss");
+        FeedFetcher f2 = new FeedFetcher("http://www.foxsports.com/feedout/syndicatedContent?categoryId=235");
+        FeedFetcher f3 = new FeedFetcher("http://sports.espn.go.com/espn/rss/oly/news");
         
         f1.start();
         f2.start();
