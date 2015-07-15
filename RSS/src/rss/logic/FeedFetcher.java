@@ -20,19 +20,8 @@ public class FeedFetcher extends Thread {
     private String url = null;
     private long lastFetch = 0;
     
-    private static int ID = 0; // TODO: Remover esto. Fue colocado con fines de prueba.
-    private static Random rand = new Random(); // TODO: Remover esto. Fue colocado con fines de prueba.
-    
     public FeedFetcher(String url) {
         this.url = url;
-    }
-    
-    private RSSData createData() { // TODO: Remover esto. Fue colocado con fines de prueba.
-        if (rand.nextBoolean())
-            return null;
-        
-        ID++;
-        return new RSSData("title: "+ID, url, "descripcion", "idioma", "copyright", new Date().toString());
     }
     
     private void pull() throws MalformedURLException, SAXException, ParserConfigurationException, IOException {
@@ -51,13 +40,8 @@ public class FeedFetcher extends Thread {
             
             if (new_data != null)
                 dataToAdd.add(new_data);
-         }   
+        }
         
-        /*for (int i=0; i<5; i++) {
-            RSSData new_data = createData();
-            if (new_data != null)
-                dataToAdd.add(new_data);
-        };*/
         Config.RSS_BUFFER.addData(dataToAdd);
         lastFetch = System.currentTimeMillis();        
         
@@ -77,9 +61,7 @@ public class FeedFetcher extends Thread {
             };
 
             try {
-                // TODO: Esperar a que liberen el buffer
                 pull();
-                // TODO: Notificar que se dejó de usar el buffer
             } catch (SAXException ex) {
                 Logger.getLogger(FeedFetcher.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ParserConfigurationException ex) {
