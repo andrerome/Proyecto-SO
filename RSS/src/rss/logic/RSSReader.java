@@ -61,10 +61,11 @@ public class RSSReader {
         FeedFetcher f1 = new FeedFetcher("http://blogdesuperheroes.es/feed");
         FeedFetcher f2 = new FeedFetcher("http://www.microsiervos.com/index.xml");
         FeedFetcher f3 = new FeedFetcher("http://www.eluniverso.com/rss/noticias.xml");
-        
-        f1.start();
-        f2.start();
-        f3.start();
+        FeedFetcher f4 = new FeedFetcher("http://www.espol.edu.ec/trabajo.aspx");
+        //f1.start();
+        //f2.start();
+        //f3.start();
+        f4.start();
         
         UserFeedUpdater updater = new UserFeedUpdater(feed, frame);
         updater.start();

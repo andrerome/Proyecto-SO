@@ -47,9 +47,11 @@ public class RSSData {
 
     @Override
     public String toString() {
-      return "Feed [title=" + title +",description=" + description
-          + ", link=" + link + ", pubDate="
-          + pubDate + "]";
+      return  "\nFeed:"+
+              "\nTítulo: " + title +
+              "\nDescripción: " + description +
+              "\nFuente: " + link + 
+              "\nFecha=" + pubDate;
     }
 
 
