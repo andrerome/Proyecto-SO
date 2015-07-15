@@ -14,6 +14,7 @@ import rss.gui.RSSReaderFrame;
 public class RSSReader {
     private static final LinkedList <RSSData> feed = new LinkedList <RSSData> ();
     private static final LinkedList <RSSProvider> providers = new LinkedList <RSSProvider> ();
+    private static final LinkedList <FeedFetcher> fetchers = new LinkedList <FeedFetcher> ();
     public static rss.RSSReaderTest instance = null;
     private URL rssURL;
 
@@ -62,6 +63,12 @@ public class RSSReader {
         FeedFetcher f2 = new FeedFetcher("http://www.microsiervos.com/index.xml");
         FeedFetcher f3 = new FeedFetcher("http://www.eluniverso.com/rss/noticias.xml");
         FeedFetcher f4 = new FeedFetcher("http://www.espol.edu.ec/trabajo.aspx");
+        
+        fetchers.add(f1);
+        fetchers.add(f2);
+        fetchers.add(f3);
+        fetchers.add(f4);
+        
         //f1.start();
         //f2.start();
         //f3.start();
@@ -71,5 +78,10 @@ public class RSSReader {
         updater.start();
         
         frame.setVisible(true);
+    }
+    
+    public static void forcePull() {
+        for(FeedFetcher fetcher : fetchers)
+            fetcher.forcePull();
     }
 }

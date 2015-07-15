@@ -14,12 +14,6 @@ public abstract class Config {
     public final static long TIME_TO_WAIT = 5000;
     
     /**
-     * Bandera para que los hilos sepan si se debe forzar un pull mientras esperan
-     * TODO: Esta bandera debe ser seteada a false cuando se sepa que todos los hilos productores recibieron el mensaje
-     */
-    public final static boolean FORCE_PULL = false;
-    
-    /**
      * Buffer compartido en donde los hilos productores colocarán la información y el hilo consumidor los agregará al listado principal del usuario y limpiará el buffer
      */
     public final static RSSBuffer RSS_BUFFER = new RSSBuffer();

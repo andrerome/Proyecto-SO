@@ -3,13 +3,11 @@ package rss.logic;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import java.util.LinkedList;
-import java.util.Random;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -19,6 +17,7 @@ import org.w3c.dom.NodeList;
 public class FeedFetcher extends Thread {
     private String url = null;
     private long lastFetch = 0;
+    private boolean forcePull = false;
     
     public FeedFetcher(String url) {
         this.url = url;
@@ -43,19 +42,23 @@ public class FeedFetcher extends Thread {
         }
         
         Config.RSS_BUFFER.addData(dataToAdd);
-        lastFetch = System.currentTimeMillis();        
-        
+        lastFetch = System.currentTimeMillis();
     }
     
     public long getElapsedTime() {
         return System.currentTimeMillis() - this.lastFetch;
     }
     
+    public void forcePull() {
+        this.forcePull = true;
+    }
+    
     @Override
     public void run() {
         while (true) {
             while (getElapsedTime() <= Config.TIME_TO_WAIT) {
-                if (Config.FORCE_PULL) {
+                if (forcePull) {
+                    forcePull = false;
                     break;
                 }
             };
