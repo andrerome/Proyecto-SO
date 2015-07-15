@@ -12,6 +12,7 @@ import org.w3c.dom.NodeList;
 import rss.gui.RSSReaderFrame;
 
 public class RSSReader {
+    
     private static final LinkedList <RSSData> feed = new LinkedList <RSSData> ();
     private static final LinkedList <RSSProvider> providers = new LinkedList <RSSProvider> ();
     private static final LinkedList <FeedFetcher> fetchers = new LinkedList <FeedFetcher> ();
@@ -54,10 +55,10 @@ public class RSSReader {
         RSSReaderFrame frame = new RSSReaderFrame(feed);
         
         //RSS disponibles para escoger
-        for (RSSProvider RSSData : providers) {
-            providers.add(new RSSProvider("Tema 1", "http://www.tullyrankin.com/feed/rss"));
-            providers.add(new RSSProvider("Tema 4","http://www.foxsports.com/feedout/syndicatedContent?categoryId=235"));
-        }
+        providers.add(new RSSProvider("Comics ", "http://blogdesuperheroes.es/feed"));
+        providers.add(new RSSProvider("El Universo","http://www.microsiervos.com/index.xm"));
+        providers.add(new RSSProvider("Tecnologia","http://www.microsiervos.com/index.xml"));
+        providers.add(new RSSProvider("ESPOL","http://www.espol.edu.ec/trabajo.aspx"));        
         
         FeedFetcher f1 = new FeedFetcher("http://blogdesuperheroes.es/feed");
         FeedFetcher f2 = new FeedFetcher("http://www.microsiervos.com/index.xml");
@@ -68,9 +69,9 @@ public class RSSReader {
         fetchers.add(f2);
         fetchers.add(f3);
         fetchers.add(f4);
-        
-        //f1.start();
-        //f2.start();
+
+        f1.start();
+        f2.start();
         f3.start();
         f4.start();
         

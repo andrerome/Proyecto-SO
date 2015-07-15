@@ -14,7 +14,8 @@ import java.net.URL;
  */
 public class RSSProvider {
     public String tema;
-    public URL url;  
+    public URL url;
+    public boolean suscrito = false;
 
     public RSSProvider(String tema, String url) throws MalformedURLException {
         this.tema = tema;
