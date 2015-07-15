@@ -7,7 +7,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 public class RSSData {
-    // TODO: Implementar una clase genérica para los datos de una entrada RSS
     public String title="";
     public String link="";
     public String description="";

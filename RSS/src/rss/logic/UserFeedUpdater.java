@@ -25,9 +25,6 @@ public class UserFeedUpdater extends Thread {
             userFeed.add(0, new_rss);
             count++;
         }
-        // TODO: Esperar a que desbloqueen el buffer
-        // TODO: Obtener entradas RSS del buffer y agregarlos al userFeed
-        // TODO: Desbloquear el buffer
         
         this.lastUpdate = System.currentTimeMillis();
         return count;
