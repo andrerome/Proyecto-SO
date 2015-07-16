@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import java.util.LinkedList;
+import java.util.Locale;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -35,34 +36,31 @@ public class FeedFetcher extends Thread {
         Document doc = builder.parse(tmp.openStream());
         NodeList items = doc.getElementsByTagName("item");        
         LinkedList <RSSData> dataToAdd = new LinkedList <RSSData>();
+        Date lastTmp = null;
         
         for (int i = 0; i < items.getLength(); i++) {
             Element item = (Element)items.item(i);
             RSSData new_data = new RSSData(item);
-            SimpleDateFormat formatter = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z");
-            dataToAdd.add(new_data);
-            /*try {
-               Date datetmp = formatter.parse(new_data.pubDate);
-                if(lastFetch== 0){
+            SimpleDateFormat formatter = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+            
+            try {
+                Date datetmp = formatter.parse(new_data.pubDate);
+                if(lastFetch== 0 || datetmp.after(this.lastPost))
                     dataToAdd.add(new_data);
-                    
-                    if(lastPost==null) {
-                        lastPost= datetmp;
-                    } else if(datetmp.after(this.lastPost))
-                        this.lastPost = datetmp;
-                    
-                    this.lastPost = datetmp;
-                } else if (lastFetch!= 0 && new_data != null && datetmp.after(this.lastPost)) {
-                    dataToAdd.add(new_data);
-                    this.lastPost = datetmp;
-                }
+                               
+                if(lastTmp==null) {
+                   lastTmp= datetmp;
+                } else if(datetmp.after(lastTmp))
+                    lastTmp = datetmp;
+               
             } catch (ParseException e) {
                 e.printStackTrace();
-            }    */                              
+            }                            
         }
         
         Config.RSS_BUFFER.addData(dataToAdd);
-        lastFetch = System.currentTimeMillis();
+        this.lastPost = lastTmp!=null?lastTmp:this.lastPost;        
+        this.lastFetch = System.currentTimeMillis();
     }
     
     public long getElapsedTime() {

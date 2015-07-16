@@ -7,7 +7,7 @@ public class RSSData {
     public String title="";
     public String link="";
     public String description="";
-    public String pubDate; //TODO: guaradar como Date
+    public String pubDate;
     
     public RSSData(String title, String link, String description, String language,
         String copyright, String pubDate) {
@@ -27,13 +27,6 @@ public class RSSData {
         this.link = getValue(item, "link");  
         this.description = getValue(item, "description");
         this.pubDate = getValue(item, "pubDate");
-        
-        /*SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy  HH:mm:ss");
-        try {
-           this.pubDate = formatter.parse(RSSReader.getValue(item, "pubDate"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
     }
     
     public static String getValue(Element parent, String nodeName) {
