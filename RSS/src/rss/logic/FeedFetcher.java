@@ -73,14 +73,26 @@ public class FeedFetcher extends Thread {
     
     @Override
     public void run() {
+        boolean threadInterrupted = false;
+        
         while (true) {
             while (getElapsedTime() <= Config.TIME_TO_WAIT) {
                 if (forcePull) {
                     forcePull = false;
                     break;
                 }
+                
+                try {
+                    sleep(Math.min(Config.TIME_TO_WAIT, 1000));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    threadInterrupted = true;
+                }
             }
-
+            
+            if (threadInterrupted)
+                break;
+            
             try {
                 pull();
             } catch (SAXException ex) {

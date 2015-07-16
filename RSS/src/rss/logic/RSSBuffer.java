@@ -9,13 +9,8 @@ public class RSSBuffer {
     private boolean write_ready = true;
     
     public synchronized LinkedList <RSSData> getData() {
-        while (!read_ready) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        if (!read_ready)
+            return null;
         
         write_ready = false;
         

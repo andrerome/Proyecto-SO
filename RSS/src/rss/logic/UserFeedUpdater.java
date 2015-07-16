@@ -21,9 +21,11 @@ public class UserFeedUpdater extends Thread {
         int count = 0; // Cantidad de entradas que se agregaron
         
         LinkedList <RSSData> newData = Config.RSS_BUFFER.getData();
-        for (RSSData new_rss : newData) {
-            userFeed.add(0, new_rss);
-            count++;
+        if (newData != null) {        
+            for (RSSData new_rss : newData) {
+                userFeed.add(0, new_rss);
+                count++;
+            }
         }
         
         this.lastUpdate = System.currentTimeMillis();
@@ -32,10 +34,20 @@ public class UserFeedUpdater extends Thread {
     
     @Override
     public void run() {
+        boolean threadInterrupted = false;
+        
         while (true) {
             while (getElapsedTime() <= Config.USER_FEED_UPDATE_INTERVAL) {
-                // Do nothing...
+                try {
+                    sleep(Math.min(Config.USER_FEED_UPDATE_INTERVAL, 1000));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    threadInterrupted = true;
+                }
             }
+            
+            if (threadInterrupted)
+                break;
             
             System.out.println("Update...");
 

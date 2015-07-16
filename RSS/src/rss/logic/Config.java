@@ -1,6 +1,8 @@
 package rss.logic;
 
-public abstract class Config {    
+public abstract class Config {
+    // TODO: Leer configuración desde archivo
+    
     /**
      * Tiempo a esperar para vaciar el buffer y pasar las nuevas entradas al feed principal
      */
