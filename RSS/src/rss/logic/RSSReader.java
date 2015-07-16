@@ -21,9 +21,8 @@ public class RSSReader {
             BufferedReader in = new BufferedReader(new InputStreamReader(new DataInputStream(new FileInputStream("config.txt"))));
             String line;
             while ((line = in.readLine()) != null) {
-                if (line.startsWith("#")) {
+                if (line.startsWith("#"))
                     continue;
-                }
 
                 String tokens[] = line.split(" ");
                 if (tokens[0].equals("TIME_TO_WAIT:")) {
