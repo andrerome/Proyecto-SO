@@ -1,19 +1,14 @@
 package rss.logic;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
 
 public class RSSData {
     public String title="";
     public String link="";
     public String description="";
     public String pubDate; //TODO: guaradar como Date
-
-   //final List<FeedMessage> entries = new ArrayList<FeedMessage>();
-
+    
     public RSSData(String title, String link, String description, String language,
         String copyright, String pubDate) {
           this.title = title;
@@ -22,50 +17,27 @@ public class RSSData {
           this.pubDate = pubDate;
     }
 
-    /*
-    public List<FeedMessage> getMessages() {
-      return entries;
-    }
-    */
-  
- 
-    public String getTitle() {
-      return title;
-    }
-
-    public String getLink() {
-      return link;
-    }
-
-    public String getDescription() {
-      return description;
-    }
-
-    public String getPubDate() {
-      return pubDate;
-    }
-
     @Override
     public String toString() {
-      return  "\nFeed:"+
-              "\nTítulo: " + title +
-              "\nDescripción: " + description +
-              "\nFuente: " + link + 
-              "\nFecha=" + pubDate;
+        return title;
     }
-
-
+    
     public RSSData(Element item) {
-        this.title = RSSReader.getValue(item, "title");
-        this.link = RSSReader.getValue(item, "link");  
-        this.description = RSSReader.getValue(item, "description");
-        this.pubDate = RSSReader.getValue(item, "pubDate");
+        this.title = getValue(item, "title");
+        this.link = getValue(item, "link");  
+        this.description = getValue(item, "description");
+        this.pubDate = getValue(item, "pubDate");
         
         /*SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy  HH:mm:ss");
         try {
            this.pubDate = formatter.parse(RSSReader.getValue(item, "pubDate"));
         } catch (ParseException e) {
             e.printStackTrace();
-        }*/                      
+        }*/
+    }
+    
+    public static String getValue(Element parent, String nodeName) {
+        Node temp = parent.getElementsByTagName(nodeName).item(0).getFirstChild();
+        return temp!=null?temp.getNodeValue():"";
     }
 }

@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import rss.gui.RSSReaderFrame;
 
 public class UserFeedUpdater extends Thread {
-    private LinkedList <RSSData> userFeed;
-    private RSSReaderFrame frame;
+    private final LinkedList <RSSData> userFeed;
+    private final RSSReaderFrame frame;
     private long lastUpdate = 0;
     
     public UserFeedUpdater(LinkedList <RSSData> feed, RSSReaderFrame frame) {
@@ -36,6 +36,7 @@ public class UserFeedUpdater extends Thread {
             while (getElapsedTime() <= Config.USER_FEED_UPDATE_INTERVAL) {
                 // Do nothing...
             }
+            
             System.out.println("Update...");
 
             int newEntries = updateFeed();
