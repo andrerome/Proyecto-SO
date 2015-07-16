@@ -1,25 +1,18 @@
 package rss.gui;
 
-import java.awt.Font;
 import java.net.MalformedURLException;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractListModel;
 import rss.logic.FeedFetcher;
 import rss.logic.RSSData;
 import rss.logic.RSSProvider;
-import rss.logic.RSSReader;
-
+import rss.logic.UserFeedUpdater;
 
 public class RSSReaderFrame extends javax.swing.JFrame {
     private LinkedList <RSSData> userFeed;
     public static final LinkedList <RSSProvider> providers = new LinkedList <RSSProvider> ();
     public static final LinkedList <FeedFetcher> fetchers = new LinkedList <FeedFetcher> ();
     
-    /**
-     * Creates new form RSSReader
-     */
     public RSSReaderFrame(LinkedList <RSSData> feed) throws MalformedURLException {
         this.userFeed = feed;
 
@@ -32,23 +25,21 @@ public class RSSReaderFrame extends javax.swing.JFrame {
         providers.add(new RSSProvider("Deportes","http://www.eluniverso.com/rss/deportes.xml"));
         
         
-         for(int i=0; i<providers.size(); i++){
-         
-            fetchers.add(new FeedFetcher(providers.get(i).getUrl().toString()));
- 
+        for (RSSProvider provider : providers) {
+            fetchers.add(new FeedFetcher(provider.getUrl().toString()));
         }
-        try{
-        jCheckBox1.setLabel(providers.get(0).getTema());
-        jCheckBox2.setLabel(providers.get(1).getTema());
-        jCheckBox3.setLabel(providers.get(2).getTema());
-        jCheckBox4.setLabel(providers.get(3).getTema());
-        jCheckBox5.setLabel(providers.get(4).getTema());
-        jCheckBox6.setLabel(providers.get(5).getTema());
-        }catch(NullPointerException e){}
+        
+        try {
+            jCheckBox1.setText(providers.get(0).getTema());
+            jCheckBox2.setText(providers.get(1).getTema());
+            jCheckBox3.setText(providers.get(2).getTema());
+            jCheckBox4.setText(providers.get(3).getTema());
+            jCheckBox5.setText(providers.get(4).getTema());
+            jCheckBox6.setText(providers.get(5).getTema());
+        } catch (NullPointerException e) {}
     }
     
     public void refreshFeed() {
-        jList1.setFont(new Font("monospaced", Font.ROMAN_BASELINE, 13));
         jList1.setModel(new AbstractListModel() {       
             @Override
             public int getSize() {
@@ -242,29 +233,22 @@ public class RSSReaderFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jCheckBox1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox1StateChanged
-        // TODO add your handling code here:
-
-        
+        // TODO add your handling code here:        
     }//GEN-LAST:event_jCheckBox1StateChanged
 
     private void jCheckBox2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox2StateChanged
-        // TODO add your handling code here:
-        
+        // TODO add your handling code here:        
     }//GEN-LAST:event_jCheckBox2StateChanged
 
     private void jCheckBox3StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox3StateChanged
         // TODO add your handling code here:
-            
-                 
     }//GEN-LAST:event_jCheckBox3StateChanged
 
     private void jCheckBox4StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox4StateChanged
         // TODO add your handling code here:
-            
     }//GEN-LAST:event_jCheckBox4StateChanged
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
         if(jCheckBox1.isSelected() && "NEW".equals(fetchers.get(0).getState().toString())) {
             fetchers.get(0).start();
         }
@@ -289,6 +273,9 @@ public class RSSReaderFrame extends javax.swing.JFrame {
             fetchers.get(5).start();
         }
         
+        UserFeedUpdater updater = new UserFeedUpdater(userFeed, this);
+        updater.start();
+        
         jCheckBox1.setEnabled(false);
         jCheckBox2.setEnabled(false);
         jCheckBox3.setEnabled(false);
@@ -297,8 +284,6 @@ public class RSSReaderFrame extends javax.swing.JFrame {
         jCheckBox6.setEnabled(false);
         jButton2.setEnabled(false);
         jButton3.setEnabled(true);
-          
-        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jCheckBox5StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox5StateChanged
@@ -310,7 +295,6 @@ public class RSSReaderFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox6StateChanged
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
         jCheckBox1.setEnabled(true);
         jCheckBox2.setEnabled(true);
         jCheckBox3.setEnabled(true);

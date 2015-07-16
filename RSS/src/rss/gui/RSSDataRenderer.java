@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package rss.gui;
 
 import java.awt.Color;
@@ -14,10 +9,6 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import rss.logic.RSSData;
 
-/**
- *
- * @author KEAB
- */
 public class RSSDataRenderer extends JLabel implements ListCellRenderer<Object> {
     private RSSData data = null;
     private boolean isSelected = false;

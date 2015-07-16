@@ -1,7 +1,6 @@
 package rss.logic;
 
-public abstract class Config {
-    
+public abstract class Config {    
     /**
      * Tiempo a esperar para vaciar el buffer y pasar las nuevas entradas al feed principal
      */
@@ -11,10 +10,11 @@ public abstract class Config {
      * Tiempo a esperar entre pulls
      * Nota: 1 minute = 60000 milliseconds
      */
-    public final static long TIME_TO_WAIT = 50000;// 5 segundos
+    public final static long TIME_TO_WAIT = 5000; // 5 segundos
     
     /**
-     * Buffer compartido en donde los hilos productores colocarán la información y el hilo consumidor los agregará al listado principal del usuario y limpiará el buffer
+     * Buffer compartido en donde los hilos productores colocarán la información y de donde el hilo
+     * consumidor sacará posts para agregarlos al listado principal del usuario y limpiará el buffer
      */
     public final static RSSBuffer RSS_BUFFER = new RSSBuffer();
 }
