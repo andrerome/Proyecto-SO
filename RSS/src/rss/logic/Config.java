@@ -12,7 +12,7 @@ public abstract class Config {
      * Tiempo a esperar entre pulls
      * Nota: 1 minute = 60000 milliseconds
      */
-    public final static long TIME_TO_WAIT = 5000; // 5 segundos
+    public static long TIME_TO_WAIT = 5000; // 5 segundos
     
     /**
      * Buffer compartido en donde los hilos productores colocarán la información y de donde el hilo
