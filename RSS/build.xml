@@ -70,4 +70,5 @@
     nbproject/build-impl.xml file. 
 
     -->
+	<copy file="config.txt" tofile="dist/config.txt"/>
 </project>
