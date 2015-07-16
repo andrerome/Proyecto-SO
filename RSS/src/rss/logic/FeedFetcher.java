@@ -34,14 +34,14 @@ public class FeedFetcher extends Thread {
         URL tmp = new URL(this.url);
         Document doc = builder.parse(tmp.openStream());
         NodeList items = doc.getElementsByTagName("item");        
-        LinkedList <RSSData> dataToAdd = new LinkedList <RSSData> ();
+        LinkedList <RSSData> dataToAdd = new LinkedList <RSSData>();
         
         for (int i = 0; i < items.getLength(); i++) {
             Element item = (Element)items.item(i);
             RSSData new_data = new RSSData(item);
             SimpleDateFormat formatter = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z");
-            
-            try {
+            dataToAdd.add(new_data);
+            /*try {
                Date datetmp = formatter.parse(new_data.pubDate);
                 if(lastFetch== 0){
                     dataToAdd.add(new_data);
@@ -58,7 +58,7 @@ public class FeedFetcher extends Thread {
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
-            }                                  
+            }    */                              
         }
         
         Config.RSS_BUFFER.addData(dataToAdd);
@@ -81,7 +81,7 @@ public class FeedFetcher extends Thread {
                     forcePull = false;
                     break;
                 }
-            };
+            }
 
             try {
                 pull();

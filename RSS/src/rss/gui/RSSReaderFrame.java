@@ -1,20 +1,44 @@
 package rss.gui;
 
 import java.awt.Font;
+import java.net.MalformedURLException;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractListModel;
+import rss.logic.FeedFetcher;
 import rss.logic.RSSData;
+import rss.logic.RSSProvider;
 import rss.logic.RSSReader;
+
 
 public class RSSReaderFrame extends javax.swing.JFrame {
     private LinkedList <RSSData> userFeed;
+    public static final LinkedList <RSSProvider> providers = new LinkedList <RSSProvider> ();
+    public static final LinkedList <FeedFetcher> fetchers = new LinkedList <FeedFetcher> ();
     
     /**
      * Creates new form RSSReader
      */
-    public RSSReaderFrame(LinkedList <RSSData> feed) {
+    public RSSReaderFrame(LinkedList <RSSData> feed) throws MalformedURLException {
         this.userFeed = feed;
+
         initComponents();
+        providers.add(new RSSProvider("Comics ", "http://blogdesuperheroes.es/feed"));
+        providers.add(new RSSProvider("El Universo","http://www.eluniverso.com/rss/noticias.xml"));
+        providers.add(new RSSProvider("Tecnologia","http://www.microsiervos.com/index.xml"));
+        providers.add(new RSSProvider("ESPOL","http://www.espol.edu.ec/trabajo.aspx"));
+         for(int i=0; i<providers.size(); i++){
+         
+            fetchers.add(new FeedFetcher(providers.get(i).getUrl().toString()));
+ 
+        }
+        try{
+       jCheckBox1.setLabel(providers.get(0).getTema());
+        jCheckBox2.setLabel(providers.get(1).getTema());
+        jCheckBox3.setLabel(providers.get(2).getTema());
+        jCheckBox4.setLabel(providers.get(3).getTema());
+        }catch(NullPointerException e){}
     }
     
     public void refreshFeed() {
@@ -31,6 +55,10 @@ public class RSSReaderFrame extends javax.swing.JFrame {
             }
         });
     }
+    public static void forcePull() {
+        for(FeedFetcher fetcher : fetchers)
+            fetcher.forcePull();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,6 +72,13 @@ public class RSSReaderFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
         jButton1 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBox2 = new javax.swing.JCheckBox();
+        jCheckBox3 = new javax.swing.JCheckBox();
+        jCheckBox4 = new javax.swing.JCheckBox();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("RSSReader");
@@ -60,24 +95,105 @@ public class RSSReaderFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("RSS");
+
+        jCheckBox1.setText("Tema1");
+        jCheckBox1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jCheckBox1StateChanged(evt);
+            }
+        });
+
+        jCheckBox2.setText("Tema2");
+        jCheckBox2.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jCheckBox2StateChanged(evt);
+            }
+        });
+
+        jCheckBox3.setText("Tema3");
+        jCheckBox3.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jCheckBox3StateChanged(evt);
+            }
+        });
+
+        jCheckBox4.setText("Tema4");
+        jCheckBox4.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jCheckBox4StateChanged(evt);
+            }
+        });
+
+        jButton2.setText("Comenzar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(27, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(81, 81, 81))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(47, 47, 47))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addComponent(jButton2)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jCheckBox1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox4)
+                .addGap(27, 27, 27)
+                .addComponent(jButton2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 833, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -85,12 +201,69 @@ public class RSSReaderFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        RSSReader.forcePull();
+        forcePull();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jCheckBox1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox1StateChanged
+        // TODO add your handling code here:
+
+        
+    }//GEN-LAST:event_jCheckBox1StateChanged
+
+    private void jCheckBox2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox2StateChanged
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jCheckBox2StateChanged
+
+    private void jCheckBox3StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox3StateChanged
+        // TODO add your handling code here:
+            
+                 
+    }//GEN-LAST:event_jCheckBox3StateChanged
+
+    private void jCheckBox4StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox4StateChanged
+        // TODO add your handling code here:
+            
+    }//GEN-LAST:event_jCheckBox4StateChanged
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        if(jCheckBox1.isSelected()){
+            fetchers.get(0).start();
+        }
+        
+        if(jCheckBox2.isSelected()){
+            fetchers.get(1).start();
+        }
+        
+        if(jCheckBox3.isSelected()){
+            fetchers.get(2).start();
+        }
+        
+        if(jCheckBox4.isSelected()){
+            fetchers.get(3).start();
+        }
+        
+        jCheckBox1.setEnabled(false);
+        jCheckBox2.setEnabled(false);
+        jCheckBox3.setEnabled(false);
+        jCheckBox4.setEnabled(false);
+        jButton2.setEnabled(false);
+        
+          
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JCheckBox jCheckBox3;
+    private javax.swing.JCheckBox jCheckBox4;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JList jList1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
